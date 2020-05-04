@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
+    <script src="https://kit.fontawesome.com/f20d460fd9.js" crossorigin="anonymous"></script>
+    <script src="sanPham.js"></script>
+    <script src="gioHang.js"></script>
+    <script src="taoId.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        img {
+            width: 15%;
+        }
+        input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .gio-hang {
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 4px #ddd;
+            padding: 20px;
+            margin: auto;
+            max-width: 1100px;
+        }
+        .item-gio-hang {
+            display: flex;
+            flex-direction: row;
+            ;
+            align-items: center;
+        }
+        .item-gio-hang .hinhAnh img {
+            width: 60px;
+            height: 60px;
+        }
+        .item-gio-hang .hinhAnh,
+        .soLuong,
+        .tongTien {
+            flex: 1;
+            margin-left: 20px;
+        }
+        .item-gio-hang .gia {
+            flex: 2;
+        }
+        .item-gio-hang .ten {
+            flex: 3;
+        }
+        .item-gio-hang .gia .giaGoc {
+            font-size: 12px;
+            text-decoration: line-through;
+            color: #aaa;
+        }
+        .item-gio-hang .gia .giaBan {
+            color: red;
+        }
+        .item-gio-hang .hanhDong i:hover{
+            color: #F7452E;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="gio-hang" class="gio-hang">
+        
+    </div>
+    <script>
+        hienThiGioHang();
+        function chuyenDoiTuongItemGioHangSangHTML(itemGioHang) {
+            var sanPham = laySanPhamTheoID(itemGioHang.idSanPham);
+            var tongTien = itemGioHang.soLuong*sanPham.giaSauKhiGiam();
+            var html = '   <div class="item-gio-hang">  ' +
+                '               <div class="hinhAnh">  ' +
+                '                   <img src="'+sanPham.hinhAnh+'">  ' +
+                '               </div>  ' +
+                '               <p class="ten">'+sanPham.ten+'</p>  ' +
+                '               <div class="gia">  ' +
+                '                   <span class="giaGoc">'+sanPham.giaGoc+'</span>  ' +
+                '                   <span class="giaBan">'+sanPham.giaSauKhiGiam()+'</span>  ' +
+                '               </div>  ' +
+                '               <input type="number" class="soLuong" value="'+itemGioHang.soLuong+'">  ' +
+                '               <p class="tongTien">'+tongTien+'</p>  ' +
+                '               <div class="hanhDong">  ' +
+                '                   <i class="fas fa-trash"></i>  ' +
+                '               </div>  ' +
+                '           </div>  ';
+            return html;
+        }
+
+        function chuyenDanhSachItemGioHangThanhHTML(danhSachItemGioHang){
+            var htmlTong = '';
+            for(var i=0; i< danhSachItemGioHang.length ; i++){
+                var html = chuyenDoiTuongItemGioHangSangHTML(danhSachItemGioHang[i]);
+                htmlTong = htmlTong + html;
+            }
+            console.log(htmlTong);
+            return htmlTong;
+        }
+
+        function hienThiGioHang(){
+            /* b1: load giỏ hàng từ localStorage lên */
+            var danhSachItemGioHang = layGioHangTuLocalStorage();
+            /* b2: chuyển danh sách item giỏ hàng thành html */
+            var html = chuyenDanhSachItemGioHangThanhHTML(danhSachItemGioHang);
+            /* b3: truy cập node muốn hiển thị , đưa đoạn html vào node  */
+            var nodeGioHang = document.getElementById('gio-hang');
+            nodeGioHang.innerHTML = html;
+        }
+    </script>
+</body>
+
+</html>

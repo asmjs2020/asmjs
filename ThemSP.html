@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm mới sản phẩm</title>
+    <script src="taoId.js"></script>
+    <script src="sanPham.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .them-san-pham {
+            width: 40%;
+            margin: auto;
+            border: 1px solid #ddd;
+            box-shadow: 1px 2px 4px #ddd;
+            padding: 5%;
+        }
+
+        .them-san-pham label {
+            display: block;
+            width: 100%;
+            font-size: 16px;
+            line-height: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .them-san-pham input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .them-san-pham .btn {
+            padding: 10px 20px;
+            width: 100%;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: red;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="them-san-pham">
+        <label for="hinhAnh">Hình ảnh sản phẩm</label>
+        <input type="text" id="hinhAnh">
+
+        <label for="ten">Tên sản phẩm</label>
+        <input type="text" id="ten">
+
+        <label for="giaGoc">Giá gốc</label>
+        <input type="number" id="giaGoc">
+
+        <label for="phanTramGiamGia">Giảm giá(nhập từ 0-100)%</label>
+        <input type="number" id="phanTramGiamGia">
+
+        <label for="khuVuc">Khu vực</label>
+        <input type="text" id="khuVuc">
+
+        <button onclick="onClickTaoSanPham()" class="btn">Tạo sản phẩm</button>
+        <script>
+            function onClickTaoSanPham() {
+                var sanPham = taoDoiTuongTuInput();
+                console.log(sanPham);
+
+                /* Bước 3 lấy danh sách sản phẩm từ local lên */
+                var jsondanhSachSanPham = localStorage.getItem('danhSachSanPham');
+                var danhSachSanPham = JSON.parse(jsondanhSachSanPham);
+
+                /*  Bước 4 đưa thêm đối tượng sản phẩm đc tạo ra ở bước 2 thêm vào list sp */
+                danhSachSanPham.push(sanPham);
+
+                /* Bước 5 cập nhật lại list sp vào local */
+                var jsondanhSachSanPham = JSON.stringify(danhSachSanPham);
+                localStorage.setItem('danhSachSanPham', jsondanhSachSanPham);
+            }
+            /* Bước 1 trụy cập các node input để lấy đc các thông tin */
+            function taoDoiTuongTuInput() {
+                var nodeHinhAnh = document.getElementById('hinhAnh');
+                var hinhAnh = nodeHinhAnh.value;
+
+                var nodeTen = document.getElementById('ten');
+                var ten = nodeTen.value;
+
+                var nodeGiaGoc = document.getElementById('giaGoc');
+                var giaGoc = nodeGiaGoc.value;
+
+                var nodePhanTramGiamGia = document.getElementById('phanTramGiamGia');
+                var phanTramGiamGia = nodePhanTramGiamGia.value;
+
+                var nodeKhuVuc = document.getElementById('khuVuc');
+                var khuVuc = nodeKhuVuc.value;
+                /*  Bước 2 tạo ra đối tượng các thuộc tính là các giá trị đã lấy đc từ step 1 */
+                var sanPham = taoDoiTuongSanPham(hinhAnh, ten, giaGoc, phanTramGiamGia, khuVuc);
+                return sanPham;
+
+
+            }
+        </script>
+    </div>
+</body>
+
+</html>
